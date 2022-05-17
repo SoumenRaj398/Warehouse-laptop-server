@@ -58,12 +58,7 @@ async function run() {
 
         // delete a product
 
-        app.delete('/laptop/:id',async(req,res)=>{
-            const id = req.params.id;
-            const query = {_id:ObjectId(id)};
-            const result = await laptopCollection.deleteOne(query);
-            res.send(result);
-        });
+       
 
         // Update a item 
 
