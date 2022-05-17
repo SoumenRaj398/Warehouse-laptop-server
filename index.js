@@ -13,7 +13,8 @@ app.use(express.json());
 
 
 
-const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.iebvp.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`;
+
+const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.koq1h.mongodb.net/?retryWrites=true&w=majority`;
 const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true, serverApi: ServerApiVersion.v1 });
 
 async function run() {
@@ -34,6 +35,57 @@ async function run() {
             res.send(laptop);
 
         })
+
+         // getting  a  particular product
+
+    app.get("/product/:id", async (req, res) => {
+        const id = req.params.id;
+        const query = { _id: ObjectId(id) };
+  
+        const result = await laptopCollection.findOne(query);
+        res.send(result);
+      });
+
+        // post a product
+        
+        app.post('/laptop',async(req,res) => {
+            const newLaptop= req.body;
+            const result = await laptopCollection.insertOne(newLaptop);
+            console.log(result);
+            res.send(result);
+
+        })
+
+        // delete a product
+
+        app.delete('/laptop/:id',async(req,res)=>{
+            const id = req.params.id;
+            const query = {_id:ObjectId(id)};
+            const result = await laptopCollection.deleteOne(query);
+            res.send(result);
+        });
+
+        // Update a item 
+
+        
+    // Update a product
+
+    app.put("/laptop/:id", async (req, res) => {
+        const id = req.params.id;
+        const updatedProduct = req.body;
+        const query = { _id: ObjectId(id) };
+        const options = { upsert: true };
+        const updatedDoc = {
+          $set: updatedProduct,
+        };
+        const result = await laptopCollection.updateOne(
+          query,
+          updatedDoc,
+          options
+        );
+        console.log(result);
+        res.send(result);
+      });
        
 
 
