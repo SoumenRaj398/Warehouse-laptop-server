@@ -70,7 +70,22 @@ async function run() {
         
     // Update a product
 
-    
+    app.put("/laptop/:id", async (req, res) => {
+      const id = req.params.id;
+      const updatedProduct = req.body;
+      const query = { _id: ObjectId(id) };
+      const options = { upsert: true };
+      const updatedDoc = {
+        $set: updatedProduct,
+      };
+      const result = await laptopCollection.updateOne(
+        query,
+        updatedDoc,
+        options
+      );
+      console.log(result);
+      res.send(result);
+    });
        
 
 
