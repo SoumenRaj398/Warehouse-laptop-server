@@ -58,29 +58,19 @@ async function run() {
 
         // delete a product
 
-       
+        app.delete('/laptop/:id',async(req,res)=>{
+            const id = req.params.id;
+            const query = {_id:ObjectId(id)};
+            const result = await laptopCollection.deleteOne(query);
+            res.send(result);
+        });
 
         // Update a item 
 
         
     // Update a product
 
-    app.put("/laptop/:id", async (req, res) => {
-        const id = req.params.id;
-        const updatedProduct = req.body;
-        const query = { _id: ObjectId(id) };
-        const options = { upsert: true };
-        const updatedDoc = {
-          $set: updatedProduct,
-        };
-        const result = await laptopCollection.updateOne(
-          query,
-          updatedDoc,
-          options
-        );
-        console.log(result);
-        res.send(result);
-      });
+    
        
 
 
